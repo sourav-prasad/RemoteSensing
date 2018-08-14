@@ -1,4 +1,4 @@
-import numpy as np
+import pandas as pd
 from keras.layers import Dense, Activation
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
