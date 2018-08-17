@@ -5,8 +5,8 @@ Created on Fri Aug 17 18:00:16 2018
 @author: ADMIN
 """
 
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np 
+import pandas as pd # data processing
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
@@ -16,10 +16,9 @@ import matplotlib.pyplot as plt
 
 
 # Importing the dataset
-# Importing the dataset
 dataset = pd.read_csv('data2csv.csv')
 dataset.head()
-print('The shape of our features is:', dataset.shape)
+print('The shape of our dataset is:', dataset.shape)
 dataset.describe()
 X = dataset.iloc[:,1:10].values
 y = dataset.iloc[:, :1].values
@@ -33,6 +32,7 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 model = RandomForestRegressor(n_jobs=-1)
+#plot accuracy for different number of trees
 estimators = np.arange(10, 600, 30)
 scores = []
 for n in estimators:
