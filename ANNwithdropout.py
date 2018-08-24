@@ -27,14 +27,19 @@ model = Sequential()
 
 # Adding the input layer and the first hidden layer
 
-model.add(Dense(64, activation = 'relu', input_dim = 9))
+
+model.add(Dense(12, activation = 'relu', input_dim = 9))
+model.add(Dropout(0.5))
+
 
 # Adding the second hidden layer
-model.add(Dense(units = 32, activation = 'relu'))
+model.add(Dense(units = 5, activation = 'relu'))
+model.add(Dropout(0.5))
 
 
 # Adding the third hidden layer
-model.add(Dense(units = 8, activation = 'relu'))
+model.add(Dense(units = 5, activation = 'relu'))
+model.add(Dropout(0.5))
 
 model.add(Dense(units = 5, activation = 'relu'))
 
@@ -46,7 +51,7 @@ model.add(Dense(units = 1))
 
 #model.add(Dense(1))
 # Compiling the ANN
-model.compile(optimizer = 'adam', loss = 'mean_squared_error',metrics=['mae','mse','mape','cosine'])
+model.compile(optimizer = 'adam', loss = 'mean_squared_error',metrics=['mae','mse','mape'])
 
 # Fitting the ANN to the Training set
 history=model.fit(X_train, y_train,validation_data=(X_val, y_val) ,batch_size = 1000, epochs = 100)
@@ -58,11 +63,9 @@ acc = history.history['mean_absolute_error']
 val_loss = history.history['val_loss']
 val_acc = history.history['val_mean_absolute_error']
 mape_loss=history.history['mean_absolute_percentage_error']
-cosine_los=history.history['cosine_proximity']
 pyplot.plot(history.history['mean_squared_error'])
 pyplot.plot(history.history['mean_absolute_error'])
 pyplot.plot(history.history['mean_absolute_percentage_error'])
-pyplot.plot(history.history['cosine_proximity'])
 pyplot.show()
 epochs = range(1, len(loss)+1)
 plt.plot(epochs, loss, 'ro', label='Training loss')
