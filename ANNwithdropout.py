@@ -13,33 +13,30 @@ X = dataset.iloc[:,1:10].values
 y = dataset.iloc[:, :1].values
 
 # Splitting the dataset into the Training set and Test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
-
+X_val=sc.transform(X_val)
 # Initialising the ANN
 model = Sequential()
 
 # Adding the input layer and the first hidden layer
 
-model.add(Dense(5, activation = 'relu', input_dim = 9))
-model.add(Dropout(0.5))
+model.add(Dense(64, activation = 'relu', input_dim = 9))
 
 # Adding the second hidden layer
-model.add(Dense(units = 5, activation = 'relu'))
+model.add(Dense(units = 32, activation = 'relu'))
 
 
 # Adding the third hidden layer
-model.add(Dense(units = 5, activation = 'relu'))
-model.add(Dropout(0.5))
+model.add(Dense(units = 8, activation = 'relu'))
 
 model.add(Dense(units = 5, activation = 'relu'))
-model.add(Dropout(0.5))
 
 model.add(Dense(units = 5, activation = 'relu'))
 
@@ -52,7 +49,7 @@ model.add(Dense(units = 1))
 model.compile(optimizer = 'adam', loss = 'mean_squared_error',metrics=['mae','mse','mape','cosine'])
 
 # Fitting the ANN to the Training set
-history=model.fit(X_train, y_train,validation_data=(X_val, y_val) ,batch_size = 1000, epochs = 5)
+history=model.fit(X_train, y_train,validation_data=(X_val, y_val) ,batch_size = 1000, epochs = 100)
 test_loss = model.evaluate(X_test,y_test)
 print(model.metrics_names)
 
@@ -74,10 +71,3 @@ plt.plot(epochs, val_loss, 'blue', label='validation loss')
 plt.legend()
 plt.show()
 
-y_pred = model.predict(X_test)
-
-plt.plot(y_test, color = 'red', label = 'Real data')
-plt.plot(y_pred, color = 'blue', label = 'Predicted data')
-plt.title('Prediction')
-plt.legend()
-plt.show()
